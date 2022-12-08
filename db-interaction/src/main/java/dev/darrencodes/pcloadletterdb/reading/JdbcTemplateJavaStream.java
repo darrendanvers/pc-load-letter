@@ -2,6 +2,7 @@ package dev.darrencodes.pcloadletterdb.reading;
 
 import java.time.Instant;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 import javax.sql.DataSource;
 
 import org.slf4j.Logger;
@@ -57,8 +58,10 @@ public class JdbcTemplateJavaStream implements CommandLineRunner {
 
         final RowMapper<String> rowMapper = (rs, i) -> rs.getString("text_val");
         final CountingConsumer countingConsumer = new CountingConsumer();
-        jdbcTemplate.queryForStream("select text_val from pc_load_letter.source", rowMapper)
-                .forEach(countingConsumer);
+
+        try (Stream<String> textStream = jdbcTemplate.queryForStream("select text_val from pc_load_letter.source", rowMapper)) {
+            textStream.forEach(countingConsumer);
+        }
 
         final Instant end = Instant.now();
         logger.info(String.format("%,d rows processed in %,d milliseconds.", countingConsumer.getRowsProcessed(),
