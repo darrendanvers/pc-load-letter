@@ -12,9 +12,9 @@ The main function for this application is defined in the
 [WebStreamApplication](./src/main/java/dev/darrencodes/pcloadletter/webstream/WebStreamApplication.java)
 class.
 
-To stream the data, you can run the following command: `curl "localhost:8080"`. This will stream
+To stream the data, you can run the following command: `curl "localhost:8080" -o out.json`. This will stream
 a large dataset in a JSON format. Alternatively, you can run the command 
-`curl "localhost:8080?format=csv"` to stream the same dataset in a CSV format.
+`curl "localhost:8080?format=csv" -o out.csv` to stream the same dataset in a CSV format.
 
 ## What it Shows
 

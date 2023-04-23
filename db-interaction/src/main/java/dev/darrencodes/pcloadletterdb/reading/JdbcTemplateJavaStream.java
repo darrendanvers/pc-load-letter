@@ -33,7 +33,9 @@ public class JdbcTemplateJavaStream implements CommandLineRunner {
 
         @Override
         public void accept(String s) {
-            logger.info(Util.abbreviate(s, 50));
+            if (this.rowsProcessed % 1_000 == 0) {
+                logger.info(Util.abbreviate(s, 50));
+            }
             this.rowsProcessed++;
         }
 
@@ -55,6 +57,7 @@ public class JdbcTemplateJavaStream implements CommandLineRunner {
         final Instant start = Instant.now();
 
         final JdbcTemplate jdbcTemplate = new JdbcTemplate(this.dataSource);
+        jdbcTemplate.setFetchSize(100);
 
         final RowMapper<String> rowMapper = (rs, i) -> rs.getString("text_val");
         final CountingConsumer countingConsumer = new CountingConsumer();

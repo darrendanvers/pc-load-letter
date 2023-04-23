@@ -39,6 +39,13 @@ public class DataInsert {
             end = Instant.now();
             System.out.printf("%,d records inserted in %,d milliseconds the fast way.\n", rowsInserted, end.toEpochMilli() - start.toEpochMilli());
 
+            // Add another million so we have a ton of records
+            start = Instant.now();
+            rowsInserted = fastSourceInsert(connection, 1_050_000, 1_000_000, generatedStrings);
+            connection.commit();
+            end = Instant.now();
+            System.out.printf("%,d records inserted in %,d milliseconds the fast way.\n", rowsInserted, end.toEpochMilli() - start.toEpochMilli());
+
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }

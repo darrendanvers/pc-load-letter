@@ -34,7 +34,9 @@ public class JdbcTemplateStreamProcess implements CommandLineRunner {
         @Override
         public void processRow(ResultSet rs) throws SQLException {
             String s = rs.getString("text_val");
-            logger.info(Util.abbreviate(s, 50));
+            if (this.rowsProcessed % 1_000 == 0) {
+                logger.info(Util.abbreviate(s, 50));
+            }
             this.rowsProcessed++;
         }
 

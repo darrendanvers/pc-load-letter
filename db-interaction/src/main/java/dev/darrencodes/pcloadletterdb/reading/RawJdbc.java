@@ -29,8 +29,10 @@ public class RawJdbc {
                     // Loop through the results and process them.
                     while (resultSet.next()) {
                         final String s = resultSet.getString("text_val");
-                        System.out.printf("%s\n", Util.abbreviate(s, 50));
                         rowsProcessed++;
+                        if (rowsProcessed % 1_000 == 0) {
+                            System.out.printf("%s\n", Util.abbreviate(s, 50));
+                        }
                     }
                 }
             }
